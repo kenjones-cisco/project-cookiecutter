@@ -1,0 +1,6 @@
+metadata:
+  name: {{cookiecutter.prj_name}}{% if cookiecutter.use_image == "y" %}
+  image: {{cookiecutter.image_org}}/{{cookiecutter.prj_name}}{% endif %}
+  version: {{cookiecutter.version}}
+  pretag: dev
+versioned: []

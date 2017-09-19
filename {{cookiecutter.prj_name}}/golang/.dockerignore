@@ -1,0 +1,9 @@
+.glide/
+build/
+cover/
+docs/
+imgs/
+vendor/
+release/
+scripts/
+*.md

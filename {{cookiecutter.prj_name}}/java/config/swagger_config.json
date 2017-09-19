@@ -1,0 +1,12 @@
+{
+  "artifactId": "{{cookiecutter.prj_name}}",
+  "groupId": "com.{{cookiecutter.org_name}}.{{cookiecutter.prj_name}}",
+  "basePackage": "com.{{cookiecutter.org_name}}.{{cookiecutter.prj_name}}",
+  "apiPackage": "com.{{cookiecutter.org_name}}.{{cookiecutter.prj_name}}.api",
+  "configPackage": "com.{{cookiecutter.org_name}}.{{cookiecutter.prj_name}}.config",
+  "modelPackage": "com.{{cookiecutter.org_name}}.{{cookiecutter.prj_name}}.model",
+  "hideGenerationTimestamp": true,
+  "dateLibrary": "java8",
+  "useBeanValidation": true,
+  "licenseUrl": ""
+}

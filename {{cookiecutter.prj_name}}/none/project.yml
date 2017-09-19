@@ -1,0 +1,5 @@
+metadata:
+  name: {{cookiecutter.prj_name}}
+  version: {{cookiecutter.version}}
+  pretag: dev
+versioned: []

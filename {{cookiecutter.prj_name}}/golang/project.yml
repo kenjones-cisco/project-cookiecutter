@@ -1,0 +1,16 @@
+metadata:
+  name: {{cookiecutter.prj_name}}{% if cookiecutter.use_image == "y" %}
+  image: {{cookiecutter.image_org}}/{{cookiecutter.prj_name}}{% endif %}
+  import: github.com/{{cookiecutter.org_name}}/{{cookiecutter.prj_name}}{% if cookiecutter.use_codegen == "y" %}
+  apifile: api.yml{% endif %}
+  version: {{cookiecutter.version}}
+  pretag: dev
+  versioned:{% if cookiecutter.use_builder == "y" %}
+  - filename: version/info.go
+    search: ${VERSION}
+    replace: ${NEXT_VERSION}{% endif %}{% if cookiecutter.use_codegen == "y" %}
+  - filename: api.yml
+    search: 'version: "${VERSION}"'
+    replace: 'version: "${NEXT_VERSION}"'{% endif %}{% if cookiecutter.use_builder == "y" %}
+  build:
+    - target: {{cookiecutter.binary_pkg}}{% endif %}

@@ -1,0 +1,11 @@
+swagger: '2.0'
+info:
+  version: "{{cookiecutter.version}}"
+  title: {{cookiecutter.product_name}}
+
+paths:
+  /TBD:
+    get:
+      responses:
+        default:
+          description: OK

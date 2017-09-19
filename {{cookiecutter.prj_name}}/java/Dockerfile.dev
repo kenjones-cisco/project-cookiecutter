@@ -1,0 +1,35 @@
+FROM openjdk:8-jdk
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        gettext-base \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV YAML_BIN_VERSION 1.11
+ENV JQ_BIN_VERSION 1.5
+
+RUN wget -O /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-${JQ_BIN_VERSION}/jq-linux64" \
+    && chmod 755 /usr/local/bin/jq \
+    && wget -O /usr/local/bin/yaml "https://github.com/mikefarah/yaml/releases/download/${YAML_BIN_VERSION}/yaml_linux_amd64" \
+    && chmod 755 /usr/local/bin/yaml
+
+ARG DEVELOPER
+
+RUN git config --global user.name "${DEVELOPER}" \
+    && git config --global user.email "${DEVELOPER}@gmail.com" \
+    && git config --list
+
+ENV MAVEN_VERSION 3.3.9
+ENV MAVEN_HOME /usr/share/maven{% if cookiecutter.use_codegen == "y" %}
+ENV SWAGGER_CODGEN_VERSION 2.2.3{% endif %}
+ENV JAVA_FORMATER_VERSION 1.2
+
+RUN mkdir -p /usr/share/maven \
+    && wget https://apache.osuosl.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
+        -O /tmp/apache-maven.tar.gz \
+    && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
+    && rm -f /tmp/apache-maven.tar.gz \
+    && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \{% if cookiecutter.use_codegen == "y" %}
+    && wget http://repo1.maven.org/maven2/io/swagger/swagger-codegen-cli/$SWAGGER_CODGEN_VERSION/swagger-codegen-cli-$SWAGGER_CODGEN_VERSION.jar \
+        -O /opt/swagger-codegen-cli.jar \{% endif %}
+    && wget https://github.com/google/google-java-format/releases/download/google-java-format-$JAVA_FORMATER_VERSION/google-java-format-$JAVA_FORMATER_VERSION-all-deps.jar \
+        -O /opt/java-formater.jar

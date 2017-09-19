@@ -1,0 +1,32 @@
+FROM alpine:3.6
+
+RUN apk add --no-cache \
+        bash \
+        ca-certificates \
+        coreutils \
+        curl \
+        gettext \
+        git \
+        wget \
+    && rm -f /var/cache/apk/*
+
+ENV YAML_BIN_VERSION 1.11
+ENV JQ_BIN_VERSION 1.5
+
+RUN wget -O /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-${JQ_BIN_VERSION}/jq-linux64" \
+    && chmod 755 /usr/local/bin/jq \
+    && wget -O /usr/local/bin/yaml "https://github.com/mikefarah/yaml/releases/download/${YAML_BIN_VERSION}/yaml_linux_amd64" \
+    && chmod 755 /usr/local/bin/yaml
+
+ARG DEVELOPER
+
+RUN git config --global user.name "${DEVELOPER}" \
+    && git config --global user.email "${DEVELOPER}@gmail.com" \
+    && git config --list
+
+RUN wget -O /tmp/shellcheck.tar.xz https://storage.googleapis.com/shellcheck/shellcheck-latest.linux.x86_64.tar.xz \
+    && tar Jxf /tmp/shellcheck.tar.xz --strip-components=1 -C /usr/local/bin \
+    && chmod 755 /usr/local/bin/shellcheck \
+    && rm -rf /tmp/shellcheck.tar.xz \
+    && git clone --depth 1 https://github.com/sstephenson/bats.git /tmp/bats \
+    && /tmp/bats/install.sh /usr/local

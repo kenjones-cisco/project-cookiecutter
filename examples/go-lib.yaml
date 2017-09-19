@@ -1,0 +1,13 @@
+default_context:
+  language: golang
+  prj_name: go-common
+  org_name: ccdev
+  product_name: go-common
+  version: 1.0.0
+  image_org: ''
+  binary_name: ''
+  binary_pkg: ''
+  use_image: n
+  use_builder: n
+  use_codegen: n
+  use_docgen: n

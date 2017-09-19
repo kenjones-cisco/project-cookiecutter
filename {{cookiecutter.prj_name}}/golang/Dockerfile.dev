@@ -1,0 +1,37 @@
+FROM golang:1.9
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        gettext-base \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV YAML_BIN_VERSION 1.11
+ENV JQ_BIN_VERSION 1.5
+
+RUN wget -O /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-${JQ_BIN_VERSION}/jq-linux64" \
+    && chmod 755 /usr/local/bin/jq \
+    && wget -O /usr/local/bin/yaml "https://github.com/mikefarah/yaml/releases/download/${YAML_BIN_VERSION}/yaml_linux_amd64" \
+    && chmod 755 /usr/local/bin/yaml
+
+ARG DEVELOPER
+
+RUN git config --global user.name "${DEVELOPER}" \
+    && git config --global user.email "${DEVELOPER}@gmail.com" \
+    && git config --list
+
+ENV GLIDE_VERSION v0.12.3
+
+RUN go get github.com/alecthomas/gometalinter \
+    && gometalinter --install --vendor \
+    && go get golang.org/x/tools/cmd/goimports \{% if cookiecutter.use_builder == "y" %}
+    && go get github.com/mitchellh/gox \{% endif %}{% if cookiecutter.use_docgen == "y" %}
+    && go get github.com/davecheney/godoc2md \{% endif %}
+    && go get github.com/axw/gocov/gocov \
+    && go get github.com/t-yuki/gocov-xml \
+    && go get github.com/tebeka/go2xunit \{% if cookiecutter.use_codegen == "y" %}
+    && go get github.com/go-swagger/go-swagger/cmd/swagger \{% endif %}
+    && curl -Lo /tmp/glide.tgz https://github.com/Masterminds/glide/releases/download/$GLIDE_VERSION/glide-$GLIDE_VERSION-linux-amd64.tar.gz \
+    && tar -C /usr/bin -xzf /tmp/glide.tgz --strip=1 linux-amd64/glide \
+    && rm /tmp/glide.tgz
+
+ENV CGO_ENABLED 0
+ENV GOPATH /go:/{{cookiecutter.prj_name}}

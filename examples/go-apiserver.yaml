@@ -1,0 +1,12 @@
+default_context:
+  language: golang
+  prj_name: kvstore
+  org_name: ccdev
+  product_name: KV Store
+  version: 0.1.0
+  binary_name: kvstore-server
+  binary_pkg: cmd/kvstore-server
+  use_image: y
+  use_builder: y
+  use_codegen: y
+  use_docgen: n

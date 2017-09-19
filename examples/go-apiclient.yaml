@@ -1,0 +1,13 @@
+default_context:
+  language: golang
+  prj_name: go-capiclient
+  org_name: cloudapi
+  product_name: CloudAPIs
+  version: 0.2.1
+  image_org: ''
+  binary_name: ''
+  binary_pkg: ''
+  use_image: n
+  use_builder: n
+  use_codegen: y
+  use_docgen: y

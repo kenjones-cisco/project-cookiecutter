@@ -1,0 +1,11 @@
+default_context:
+  language: java
+  prj_name: infra-api
+  org_name: infraapi
+  product_name: Cisco IT Cloud APIs
+  version: 0.3.0
+  image_org: quay.io/kenjones_cisco
+  use_image: y
+  use_builder: y
+  use_codegen: y
+  use_docgen: n

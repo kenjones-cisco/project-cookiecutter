@@ -1,0 +1,13 @@
+default_context:
+  language: golang
+  prj_name: cnmte
+  org_name: ccdev
+  product_name: Cloud Native Manager TOSCA Engine
+  version: 0.9.0
+  image_org: quay.io/kenjones_cisco
+  binary_name: cnmte-server
+  binary_pkg: cmd/cnmte-server
+  use_image: y
+  use_builder: y
+  use_codegen: y
+  use_docgen: y

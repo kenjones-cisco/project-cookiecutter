@@ -1,0 +1,13 @@
+default_context:
+  language: bash
+  prj_name: basic
+  org_name: ccdev
+  product_name: Basic Application
+  version: 1.0.0
+  image_org: quay.io/kenjones_cisco
+  binary_name: ''
+  binary_pkg: ''
+  use_image: y
+  use_builder: n
+  use_codegen: n
+  use_docgen: n

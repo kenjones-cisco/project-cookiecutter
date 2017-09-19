@@ -1,0 +1,51 @@
+PROJECT_FILE = project.yml
+export PROJECT = $(shell awk '/name: / { print $$2; exit }' ${PROJECT_FILE}){% if cookiecutter.use_image == "y" %}
+export IMAGE_NAME = $(shell awk '/image: / { print $$2; exit }' ${PROJECT_FILE}){% endif %}
+export VERSION = $(shell awk '/version: / { print $$2; exit }' ${PROJECT_FILE})
+export PRERELEASE = $(shell awk '/pretag: / { print $$2; exit }' ${PROJECT_FILE})
+
+
+JENKINS_HOME ?=
+ifeq ($(strip $(JENKINS_HOME)),)
+    CI_ENABLED := 0
+else
+    CI_ENABLED := 1
+endif
+
+RELEASE_TYPE ?=
+TAG_TYPE ?=
+
+# Windows environment?
+CYG_CHECK := $(shell hash cygpath 2>/dev/null && echo 1)
+ifeq ($(CYG_CHECK),1)
+	VBOX_CHECK := $(shell hash VBoxManage 2>/dev/null && echo 1)
+
+	# Docker Toolbox (pre-Windows 10)
+	ifeq ($(VBOX_CHECK),1)
+		ROOT := /${PROJECT}
+	else
+		# Docker Windows
+		ROOT := $(shell cygpath -m -a "$(shell pwd)")
+	endif
+else
+	# all non-windows environments
+	ROOT := $(shell pwd)
+endif
+
+DEV_IMAGE := ${PROJECT}_dev
+
+DOCKERRUN := docker run --rm \
+	-v ${ROOT}/mvn-repo:/home/builder/.m2 \
+	-v ${ROOT}:/${PROJECT} \
+	-w /${PROJECT} \
+	${DEV_IMAGE}
+
+DOCKERNOVENDOR := docker run --rm -i \
+	-e PROJECT_FILE="${PROJECT_FILE}" \
+	-e VERSION="${VERSION}" \
+	-e PRERELEASE="${PRERELEASE}" \
+	-e RELEASE_TYPE="${RELEASE_TYPE}" \
+	-e TAG_TYPE="${TAG_TYPE}" \
+	-v ${ROOT}:/${PROJECT} \
+	-w /${PROJECT} \
+	${DEV_IMAGE}

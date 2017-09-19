@@ -1,0 +1,12 @@
+default_context:
+  language: golang
+  prj_name: cnm-cli
+  org_name: ccdev
+  product_name: Cloud Native Manager
+  version: 0.1.0
+  binary_name: cnm
+  binary_pkg: cmd/cnm
+  use_image: n
+  use_builder: y
+  use_codegen: n
+  use_docgen: n

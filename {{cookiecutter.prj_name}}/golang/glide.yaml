@@ -1,0 +1,2 @@
+package: github.com/{{cookiecutter.org_name}}/{{cookiecutter.prj_name}}
+import:
